@@ -3,6 +3,7 @@ import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import SectionHeader from "./common/section-header";
 import Button from "./common/button";
+import StatusModal, { StatusModalState } from "./common/status-modal";
 
 const approvalOptions = [
   "Land Due Diligence",
@@ -28,6 +29,8 @@ export default function Connect({ isOpen }: { isOpen?: boolean }) {
   const [open, setOpen] = useState(false);
   const [selectedApproval, setSelectedApproval] = useState<string | null>(null);
   const [formData, setFormData] = useState(initialFormData);
+  const [submitting, setSubmitting] = useState(false);
+  const [statusModal, setStatusModal] = useState<StatusModalState>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const resetForm = () => {
@@ -42,7 +45,6 @@ export default function Connect({ isOpen }: { isOpen?: boolean }) {
     }
   }, [isOpen]);
 
-  // Close dropdown when clicking outside of it, without changing the selection
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -64,6 +66,7 @@ export default function Connect({ isOpen }: { isOpen?: boolean }) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSubmitting(true);
 
     try {
       const response = await fetch("/api/contact", {
@@ -79,17 +82,32 @@ export default function Connect({ isOpen }: { isOpen?: boolean }) {
 
       const data = await response.json();
 
-      console.log(data);
-
       if (data.success) {
-        alert("Message Sent Successfully");
+        setStatusModal({
+          type: "success",
+          title: "Message Sent Successfully",
+          message:
+            "Thank you for reaching out. Our team will get back to you shortly.",
+        });
         resetForm();
       } else {
-        alert("Something went wrong");
+        setStatusModal({
+          type: "error",
+          title: "Something Went Wrong",
+          message:
+            data.error?.message ||
+            "We couldn't send your message. Please try again in a moment.",
+        });
       }
     } catch (err) {
       console.error(err);
-      alert("Server Error");
+      setStatusModal({
+        type: "error",
+        title: "Server Error",
+        message: "Something went wrong on our end. Please try again shortly.",
+      });
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -229,7 +247,7 @@ export default function Connect({ isOpen }: { isOpen?: boolean }) {
             <Button
               className="w-full justify-between!"
               type="submit"
-              text="Click To Connect"
+              text={submitting ? "Sending..." : "Click To Connect"}
             />
           </form>
         </div>
@@ -277,6 +295,8 @@ export default function Connect({ isOpen }: { isOpen?: boolean }) {
           </p>
         </div>
       </div>
+
+      <StatusModal state={statusModal} onClose={() => setStatusModal(null)} />
     </section>
   );
 }

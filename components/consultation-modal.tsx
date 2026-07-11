@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, X } from "lucide-react";
 import Button from "./common/button";
+import StatusModal, { StatusModalState } from "./common/status-modal";
 
 interface ConsultationModalProps {
   isOpen: boolean;
@@ -37,6 +38,8 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
   const [selectedApproval, setSelectedApproval] =
     useState<string>(DROPDOWN_PLACEHOLDER);
   const [formData, setFormData] = useState(initialFormData);
+  const [submitting, setSubmitting] = useState(false);
+  const [statusModal, setStatusModal] = useState<StatusModalState>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const resetForm = () => {
@@ -57,7 +60,6 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
     };
   }, [isOpen]);
 
-  // Close dropdown when clicking outside of it, without changing the selection
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -79,6 +81,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSubmitting(true);
 
     try {
       const response = await fetch("/api/contact", {
@@ -94,201 +97,231 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
 
       const data = await response.json();
 
-      console.log(data);
-
       if (data.success) {
-        alert("Message Sent Successfully");
+        setStatusModal({
+          type: "success",
+          title: "Message Sent Successfully",
+          message:
+            "Thank you for reaching out. Our team will get back to you shortly.",
+        });
         resetForm();
-        onClose();
       } else {
-        alert("Something went wrong");
+        setStatusModal({
+          type: "error",
+          title: "Something Went Wrong",
+          message:
+            data.error?.message ||
+            "We couldn't send your message. Please try again in a moment.",
+        });
       }
     } catch (err) {
       console.error(err);
-      alert("Server Error");
+      setStatusModal({
+        type: "error",
+        title: "Server Error",
+        message: "Something went wrong on our end. Please try again shortly.",
+      });
+    } finally {
+      setSubmitting(false);
     }
   };
+
+  const handleStatusModalClose = () => {
+    const wasSuccess = statusModal?.type === "success";
+    setStatusModal(null);
+    if (wasSuccess) {
+      onClose();
+    }
+  };
+
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-50 p-4 sm:p-6">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-black/20 backdrop-blur-xs"
-          />
-
-          <div
-            className="container relative z-10 px-0! lg:px-4! mx-auto flex h-full items-center justify-center lg:justify-end"
-            onClick={onClose}
-          >
+    <>
+      <AnimatePresence>
+        {isOpen && (
+          <div className="fixed inset-0 z-50 p-4 sm:p-6">
             <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 15 }}
-              transition={{ type: "spring", damping: 25, stiffness: 280 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-lg bg-[#0c1520] border border-white/10 rounded-xl p-5 md:p-6 shadow-2xl overflow-y-auto max-h-[85vh] custom-scrollbar"
-            >
-              <button
-                onClick={onClose}
-                className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-1.5 rounded-full hover:bg-white/5"
-                aria-label="Close modal"
-              >
-                <X size={18} />
-              </button>
-              <div className="mb-5 pr-6">
-                <h3 className="text-xl md:text-2xl font-fraunces font-medium text-white mb-1">
-                  Schedule a Consultation
-                </h3>
-                <p className="text-white/50 text-xs md:text-sm">
-                  Fill out the form below and our experts will connect with you.
-                </p>
-              </div>
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={onClose}
+              className="absolute inset-0 bg-black/20 backdrop-blur-xs"
+            />
 
-              <form onSubmit={handleSubmit} className="space-y-3.5">
-                <div>
-                  <input
-                    type="text"
-                    required
-                    placeholder="John Doe"
-                    value={formData.fullName}
-                    onChange={(e) =>
-                      setFormData({ ...formData, fullName: e.target.value })
-                    }
-                    className="w-full rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-white outline-none focus:border-white/30 transition placeholder:text-white/20 text-xs md:text-sm"
-                  />
+            <div
+              className="container relative z-10 px-0! lg:px-4! mx-auto flex h-full items-center justify-center lg:justify-end"
+              onClick={onClose}
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.96, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96, y: 15 }}
+                transition={{ type: "spring", damping: 25, stiffness: 280 }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative w-full max-w-lg bg-[#0c1520] border border-white/10 rounded-xl p-5 md:p-6 shadow-2xl overflow-y-auto max-h-[85vh] custom-scrollbar"
+              >
+                <button
+                  onClick={onClose}
+                  className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-1.5 rounded-full hover:bg-white/5"
+                  aria-label="Close modal"
+                >
+                  <X size={18} />
+                </button>
+                <div className="mb-5 pr-6">
+                  <h3 className="text-xl md:text-2xl font-fraunces font-medium text-white mb-1">
+                    Schedule a Consultation
+                  </h3>
+                  <p className="text-white/50 text-xs md:text-sm">
+                    Fill out the form below and our experts will connect with
+                    you.
+                  </p>
                 </div>
 
-                <div className="grid gap-3.5 md:grid-cols-2">
+                <form onSubmit={handleSubmit} className="space-y-3.5">
                   <div>
                     <input
-                      type="email"
+                      type="text"
                       required
-                      placeholder="john@example.com"
-                      value={formData.email}
+                      placeholder="John Doe"
+                      value={formData.fullName}
                       onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
+                        setFormData({ ...formData, fullName: e.target.value })
                       }
                       className="w-full rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-white outline-none focus:border-white/30 transition placeholder:text-white/20 text-xs md:text-sm"
                     />
+                  </div>
+
+                  <div className="grid gap-3.5 md:grid-cols-2">
+                    <div>
+                      <input
+                        type="email"
+                        required
+                        placeholder="john@example.com"
+                        value={formData.email}
+                        onChange={(e) =>
+                          setFormData({ ...formData, email: e.target.value })
+                        }
+                        className="w-full rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-white outline-none focus:border-white/30 transition placeholder:text-white/20 text-xs md:text-sm"
+                      />
+                    </div>
+
+                    <div>
+                      <input
+                        type="text"
+                        required
+                        placeholder="+91 9876543210"
+                        value={formData.phone}
+                        onChange={(e) =>
+                          setFormData({ ...formData, phone: e.target.value })
+                        }
+                        className="w-full rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-white outline-none focus:border-white/30 transition placeholder:text-white/20 text-xs md:text-sm"
+                      />
+                    </div>
                   </div>
 
                   <div>
                     <input
                       type="text"
                       required
-                      placeholder="+91 9876543210"
-                      value={formData.phone}
+                      placeholder="Your Company Name"
+                      value={formData.companyName}
                       onChange={(e) =>
-                        setFormData({ ...formData, phone: e.target.value })
+                        setFormData({
+                          ...formData,
+                          companyName: e.target.value,
+                        })
                       }
                       className="w-full rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-white outline-none focus:border-white/30 transition placeholder:text-white/20 text-xs md:text-sm"
                     />
                   </div>
-                </div>
 
-                <div>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Your Company Name"
-                    value={formData.companyName}
-                    onChange={(e) =>
-                      setFormData({ ...formData, companyName: e.target.value })
-                    }
-                    className="w-full rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-white outline-none focus:border-white/30 transition placeholder:text-white/20 text-xs md:text-sm"
-                  />
-                </div>
-
-                <div className="relative" ref={dropdownRef}>
-                  <input
-                    type="text"
-                    required
-                    value={
-                      selectedApproval === DROPDOWN_PLACEHOLDER
-                        ? ""
-                        : selectedApproval
-                    }
-                    onChange={() => {}}
-                    className="absolute inset-0 h-full w-full pointer-events-none opacity-0"
-                    tabIndex={-1}
-                    aria-hidden="true"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setOpenDropdown(!openDropdown)}
-                    className="flex w-full items-center justify-between rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-left text-white focus:border-white/30 transition text-xs md:text-sm"
-                  >
-                    <span
-                      className={
+                  <div className="relative" ref={dropdownRef}>
+                    <input
+                      type="text"
+                      required
+                      value={
                         selectedApproval === DROPDOWN_PLACEHOLDER
-                          ? "text-white/20"
-                          : "text-white"
+                          ? ""
+                          : selectedApproval
                       }
-                    >
-                      {selectedApproval}
-                    </span>
-                    <ChevronDown
-                      size={16}
-                      className={`transition-transform duration-300 text-white/50 ${openDropdown ? "rotate-180" : ""}`}
+                      onChange={() => {}}
+                      className="absolute inset-0 h-full w-full pointer-events-none opacity-0"
+                      tabIndex={-1}
+                      aria-hidden="true"
                     />
-                  </button>
-
-                  <AnimatePresence>
-                    {openDropdown && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -5 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute left-0 top-full z-20 mt-1 w-full overflow-hidden rounded-md border border-white/10 bg-[#0c1520] shadow-xl max-h-40 overflow-y-auto"
+                    <button
+                      type="button"
+                      onClick={() => setOpenDropdown(!openDropdown)}
+                      className="flex w-full items-center justify-between rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-left text-white focus:border-white/30 transition text-xs md:text-sm"
+                    >
+                      <span
+                        className={
+                          selectedApproval === DROPDOWN_PLACEHOLDER
+                            ? "text-white/20"
+                            : "text-white"
+                        }
                       >
-                        {approvalOptions.map((option) => (
-                          <button
-                            key={option}
-                            type="button"
-                            onClick={() => {
-                              setSelectedApproval(option);
-                              setOpenDropdown(false);
-                            }}
-                            className="block w-full px-3.5 py-2 text-left text-xs md:text-sm text-white/80 hover:bg-white/5 hover:text-white transition-colors"
-                          >
-                            {option}
-                          </button>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
+                        {selectedApproval}
+                      </span>
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform duration-300 text-white/50 ${openDropdown ? "rotate-180" : ""}`}
+                      />
+                    </button>
 
-                <div>
-                  <textarea
-                    rows={3}
-                    required
-                    placeholder="Tell us about your project..."
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
-                    className="w-full rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-white outline-none focus:border-white/30 transition placeholder:text-white/20 text-xs md:text-sm resize-none"
-                  />
-                </div>
+                    <AnimatePresence>
+                      {openDropdown && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -5 }}
+                          transition={{ duration: 0.15 }}
+                          className="absolute left-0 top-full z-20 mt-1 w-full overflow-hidden rounded-md border border-white/10 bg-[#0c1520] shadow-xl max-h-40 overflow-y-auto"
+                        >
+                          {approvalOptions.map((option) => (
+                            <button
+                              key={option}
+                              type="button"
+                              onClick={() => {
+                                setSelectedApproval(option);
+                                setOpenDropdown(false);
+                              }}
+                              className="block w-full px-3.5 py-2 text-left text-xs md:text-sm text-white/80 hover:bg-white/5 hover:text-white transition-colors"
+                            >
+                              {option}
+                            </button>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
 
-                <div className="pt-1">
-                  <Button
-                    className="w-full justify-between!"
-                    type="submit"
-                    text="Click To Connect"
-                  />
-                </div>
-              </form>
-            </motion.div>
+                  <div>
+                    <textarea
+                      rows={3}
+                      required
+                      placeholder="Tell us about your project..."
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
+                      className="w-full rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-white outline-none focus:border-white/30 transition placeholder:text-white/20 text-xs md:text-sm resize-none"
+                    />
+                  </div>
+
+                  <div className="pt-1">
+                    <Button
+                      className="w-full justify-between!"
+                      type="submit"
+                      text={submitting ? "Sending..." : "Click To Connect"}
+                    />
+                  </div>
+                </form>
+              </motion.div>
+            </div>
           </div>
-        </div>
-      )}
-    </AnimatePresence>
+        )}
+      </AnimatePresence>
+      <StatusModal state={statusModal} onClose={handleStatusModalClose} />
+    </>
   );
 };
