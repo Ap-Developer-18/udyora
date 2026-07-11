@@ -16,7 +16,7 @@ export async function POST(req: Request) {
 
     const { data, error } = await resend.emails.send({
       from: "Udyora Ventures <noreply@udyora.com>",
-      to: ["puniaaman369@gmail.com"],
+      to: ["udyora@yahoo.com"],
       subject: `New Consultation Request - ${fullName}`,
       html: `
         <div style="background-color: #122130; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px 20px; color: #d6d1ce; min-height: 100%;">
