@@ -1,5 +1,5 @@
 "use client";
-import { ArrowUp, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import SectionHeader from "./common/section-header";
 import Button from "./common/button";
