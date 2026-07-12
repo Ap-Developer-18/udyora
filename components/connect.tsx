@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import SectionHeader from "./common/section-header";
 import Button from "./common/button";
 import StatusModal, { StatusModalState } from "./common/status-modal";
+import Image from "next/image";
 
 const approvalOptions = [
   "Land Due Diligence",
@@ -118,8 +119,8 @@ export default function Connect({ isOpen }: { isOpen?: boolean }) {
         description="Ready to move your project forward? Discuss your approval requirements with our experts and build a clear roadmap for successful execution."
       />
 
-      <div className="rounded-md border border-white/10 lg:grid lg:grid-cols-2 overflow-hidden">
-        <div className="p-4 lg:p-6">
+      <div className="rounded-md border border-white/10 lg:grid lg:grid-cols-12 overflow-hidden">
+        <div className="p-4 lg:p-6 col-span-7 h-fit">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <input
@@ -252,14 +253,17 @@ export default function Connect({ isOpen }: { isOpen?: boolean }) {
           </form>
         </div>
 
-        <div className="relative max-lg:hidden">
-          <img
-            src="/about-udyora.webp"
-            alt="Consultation"
-            className="h-full w-full object-cover"
-          />
-
-          <div className="absolute inset-0 bg-gradient-to-r from-[#141414] via-[#050505]/85 via-30% to-transparent" />
+        <div className="lg:col-span-5 max-lg:hidden">
+          <div className="relative h-full min-h-105 overflow-hidden">
+            <Image
+              src="/udyora_connect.webp"
+              alt="Consultation"
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 42vw"
+              className="object-cover"
+            />
+          </div>
         </div>
       </div>
 

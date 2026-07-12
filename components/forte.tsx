@@ -1,5 +1,6 @@
 import { ArrowUp } from "lucide-react";
 import SectionHeader from "./common/section-header";
+import Image from "next/image";
 
 const services = [
   {
@@ -41,39 +42,43 @@ const services = [
 
 export default function Forte() {
   return (
-    <section id="forte" className="container pt-16 lg:pt-24 scroll-mt-10">
+    <section id="forte" className="container scroll-mt-10 pt-16 lg:pt-24">
       <SectionHeader
         title="Forte"
         description="Complete approval lifecycle under one roof. We simplify complex regulatory processes and accelerate project execution through integrated approval solutions."
       />
 
-      <div className="grid gap-8 border-t border-white/10 pt-4 lg:pt-8 lg:grid-cols-[1.1fr_0.9fr]">
-        <div>
+      <div className="grid grid-cols-1 items-stretch gap-8 border-t border-white/10 pt-4 lg:grid-cols-12 lg:gap-12 lg:pt-8">
+        {/* Services */}
+        <div className="lg:col-span-7">
           {services.map((service, index) => (
             <div
               key={service.title}
-              className={`${index === services.length - 1 && "border-b-0!"} group border-b border-white/10 py-2 lg:py-3`}
+              className={`group border-b border-white/10 py-3 ${
+                index === services.length - 1 ? "border-b-0" : ""
+              }`}
             >
-              <div className="flex items-start justify-center lg:justify-between gap-3 sm:gap-4 md:gap-6">
-                <div>
-                  <h3 className="text-lg font-medium max-lg:text-center text-beige-80 transition-all duration-300 group-hover:translate-x-2">
-                    {service.title}
-                  </h3>
-                  <p className="mt-1 max-w-2xl max-lg:text-center max-sm:text-sm text-subtitle">
-                    {service.description}
-                  </p>
-                </div>
-              </div>
+              <h3 className="text-lg font-medium text-beige-80 transition-transform duration-300 group-hover:translate-x-2 max-lg:text-center">
+                {service.title}
+              </h3>
+
+              <p className="mt-1 max-w-2xl text-subtitle max-lg:mx-auto max-lg:text-center max-sm:text-sm">
+                {service.description}
+              </p>
             </div>
           ))}
         </div>
 
-        <div>
-          <div className="sticky max-md:aspect-4/3 max-lg:aspect-4/2 top-24 h-full overflow-hidden rounded-md border border-[#fff9f333]">
-            <img
+        {/* Image */}
+        <div className="lg:col-span-5">
+          <div className="relative h-full max-lg:aspect-4/3 lg:min-h-105 overflow-hidden rounded-md border border-[#fff9f333]">
+            <Image
               src="/services.webp"
               alt="Core Services"
-              className="h-full w-full object-cover"
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 42vw"
+              className="object-cover max-lg:object-center"
             />
           </div>
         </div>
