@@ -23,7 +23,7 @@ export const ScrollTextHighlight: React.FC<ScrollTextHighlightProps> = ({
       ref={containerRef}
       className="max-w-4xl mx-auto text-center px-4 pt-24"
     >
-      <h2 className="text-3xl font-medium text-white font-fraunces leading-140 tracking-tight flex flex-wrap justify-center gap-x-3 gap-y-0">
+      <h2 className="text-2xl font-medium text-white font-fraunces leading-140 tracking-tight flex flex-wrap justify-center gap-x-3 gap-y-0">
         {words.map((word, index) => {
           const start = index / words.length;
           const end = (index + 1) / words.length;
