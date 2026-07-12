@@ -134,34 +134,36 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
     }
   };
 
+  // Common input class with 16px text on mobile to fix Safari Zoom issue
+  const inputClassName =
+    "w-full rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-white outline-none focus:border-white/30 transition placeholder:text-white/20 text-base md:text-sm";
+
   return (
     <>
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-50 p-4 sm:p-6">
+          <div className="fixed inset-0 z-50 p-4 sm:p-6 flex items-center justify-center lg:justify-end overflow-hidden isolation-isolate">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={onClose}
-              className="absolute inset-0 bg-black/20 backdrop-blur-xs"
+              className="absolute inset-0 bg-black/40 backdrop-blur-xs touch-none"
             />
 
-            <div
-              className="container relative z-10 px-0! lg:px-4! mx-auto flex h-full items-center justify-center lg:justify-end"
-              onClick={onClose}
-            >
+            <div className="container relative z-10 px-0! lg:px-4! mx-auto flex h-full items-center justify-center lg:justify-end pointer-events-none">
               <motion.div
                 initial={{ opacity: 0, scale: 0.96, y: 15 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96, y: 15 }}
                 transition={{ type: "spring", damping: 25, stiffness: 280 }}
                 onClick={(e) => e.stopPropagation()}
-                className="relative w-full max-w-lg bg-[#0c1520] border border-white/10 rounded-xl p-5 md:p-6 shadow-2xl overflow-y-auto max-h-[85vh] custom-scrollbar"
+                className="relative w-full max-w-lg bg-[#0c1520] border border-white/10 rounded-xl p-5 md:p-6 shadow-2xl overflow-y-auto max-h-[80vh] md:max-h-[85vh] custom-scrollbar pointer-events-auto"
               >
                 <button
+                  type="button"
                   onClick={onClose}
-                  className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-1.5 rounded-full hover:bg-white/5"
+                  className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-1.5 rounded-full hover:bg-white/5 z-20"
                   aria-label="Close modal"
                 >
                   <X size={18} />
@@ -186,7 +188,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                       onChange={(e) =>
                         setFormData({ ...formData, fullName: e.target.value })
                       }
-                      className="w-full rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-white outline-none focus:border-white/30 transition placeholder:text-white/20 text-xs md:text-sm"
+                      className={inputClassName}
                     />
                   </div>
 
@@ -200,7 +202,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                         onChange={(e) =>
                           setFormData({ ...formData, email: e.target.value })
                         }
-                        className="w-full rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-white outline-none focus:border-white/30 transition placeholder:text-white/20 text-xs md:text-sm"
+                        className={inputClassName}
                       />
                     </div>
 
@@ -213,7 +215,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                         onChange={(e) =>
                           setFormData({ ...formData, phone: e.target.value })
                         }
-                        className="w-full rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-white outline-none focus:border-white/30 transition placeholder:text-white/20 text-xs md:text-sm"
+                        className={inputClassName}
                       />
                     </div>
                   </div>
@@ -230,7 +232,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                           companyName: e.target.value,
                         })
                       }
-                      className="w-full rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-white outline-none focus:border-white/30 transition placeholder:text-white/20 text-xs md:text-sm"
+                      className={inputClassName}
                     />
                   </div>
 
@@ -251,7 +253,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                     <button
                       type="button"
                       onClick={() => setOpenDropdown(!openDropdown)}
-                      className="flex w-full items-center justify-between rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-left text-white focus:border-white/30 transition text-xs md:text-sm"
+                      className="flex w-full items-center justify-between rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-left text-white focus:border-white/30 transition text-base md:text-sm"
                     >
                       <span
                         className={
@@ -285,7 +287,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                                 setSelectedApproval(option);
                                 setOpenDropdown(false);
                               }}
-                              className="block w-full px-3.5 py-2 text-left text-xs md:text-sm text-white/80 hover:bg-white/5 hover:text-white transition-colors"
+                              className="block w-full px-3.5 py-2 text-left text-base md:text-sm text-white/80 hover:bg-white/5 hover:text-white transition-colors"
                             >
                               {option}
                             </button>
@@ -304,7 +306,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                       onChange={(e) =>
                         setFormData({ ...formData, message: e.target.value })
                       }
-                      className="w-full rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-white outline-none focus:border-white/30 transition placeholder:text-white/20 text-xs md:text-sm resize-none"
+                      className={`${inputClassName} resize-none`}
                     />
                   </div>
 
