@@ -71,14 +71,14 @@ export default function Forte() {
 
         {/* Image */}
         <div className="lg:col-span-5">
-          <div className="relative h-full max-lg:aspect-4/3 lg:min-h-105 overflow-hidden rounded-md border border-[#fff9f333]">
+          <div className="relative h-full max-lg:aspect-4/4 lg:min-h-105 overflow-hidden rounded-md border border-[#fff9f333]">
             <Image
               src="/services.webp"
               alt="Core Services"
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 42vw"
-              className="object-cover max-lg:object-center"
+              className="object-cover max-lg:object-bottom"
             />
           </div>
         </div>
