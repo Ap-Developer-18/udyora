@@ -1,5 +1,8 @@
+"use client";
 import Link from "next/link";
 import { ArrowUp } from "lucide-react";
+import { useState } from "react";
+import StatusModal, { StatusModalState } from "./status-modal";
 
 const quickLinks = [
   { title: "Home", href: "#home" },
@@ -16,6 +19,58 @@ const utilityLinks = [
 ];
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState<StatusModalState>(null);
+
+  const handleSubmit = async () => {
+    if (!email) {
+      setModal({
+        type: "error",
+        title: "Email Required",
+        message: "Please enter your email address.",
+      });
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await fetch("/api/consultation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fullName: "Footer Enquiry",
+          email,
+          phone: "",
+          companyName: "",
+          approvalRequirement: "Consultation Request",
+          message: "Submitted from footer.",
+        }),
+      });
+
+      if (!res.ok) throw new Error();
+
+      setEmail("");
+
+      setModal({
+        type: "success",
+        title: "Request Sent",
+        message: "Thank you! Our team will get back to you shortly.",
+      });
+    } catch {
+      setModal({
+        type: "error",
+        title: "Something Went Wrong",
+        message: "Please try again in a few moments.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <footer className="mt-24 border-t border-white/10">
       <div className="container py-16 lg:py-20">
@@ -84,14 +139,22 @@ export default function Footer() {
             <div className="mt-6 lg:mt-8 flex gap-4">
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email address"
                 className="flex-1 rounded-md border border-white/10 bg-transparent px-4 lg:px-6 py-3 text-white outline-none placeholder:text-subtitle"
               />
 
-              <button className="flex size-12 items-center justify-center rounded-md border border-white/10 transition-all hover:border-beige-100/20">
+              <button
+                onClick={handleSubmit}
+                disabled={loading}
+                className="flex size-12 items-center justify-center rounded-md border border-white/10 transition-all hover:border-beige-100/20 disabled:opacity-50"
+              >
                 <ArrowUp
                   size={28}
-                  className="rotate-45 text-beige-100 max-lg:size-4"
+                  className={`rotate-45 text-beige-100 max-lg:size-4 ${
+                    loading ? "animate-pulse" : ""
+                  }`}
                 />
               </button>
             </div>
@@ -174,6 +237,7 @@ export default function Footer() {
           <p>© 2026 Udyora. All rights reserved.</p>
         </div>
       </div>
+      <StatusModal state={modal} onClose={() => setModal(null)} />
     </footer>
   );
 }

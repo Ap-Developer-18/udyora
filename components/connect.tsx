@@ -253,7 +253,7 @@ export default function Connect({ isOpen }: { isOpen?: boolean }) {
           </form>
         </div>
 
-        <div className="lg:col-span-5 max-lg:hidden">
+        <div className="lg:col-span-5">
           <div className="relative h-full min-h-105 overflow-hidden">
             <Image
               src="/udyora_connect.webp"
@@ -295,7 +295,7 @@ export default function Connect({ isOpen }: { isOpen?: boolean }) {
           <p className="mt-1 text-subtitle">
             +91 99905 33555
             <br />
-            udyora@yahoo.com
+            jsr@udyora.com
           </p>
         </div>
       </div>

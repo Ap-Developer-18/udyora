@@ -15,9 +15,9 @@ export async function POST(req: Request) {
     } = body;
 
     const { data, error } = await resend.emails.send({
-      from: "Udyora Ventures <noreply@udyora.com>",
+      from: "Business Alert <noreply@udyora.com>",
       to: ["udyora@yahoo.com"],
-      subject: `New Consultation Request - ${fullName}`,
+      subject: `Enquiry From - ${fullName}`,
       html: `
         <div style="background-color: #122130; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 40px 20px; color: #d6d1ce; min-height: 100%;">
           <!-- Card Container: Background #162534 matching site cards, with golden top border -->
@@ -25,11 +25,11 @@ export async function POST(req: Request) {
             
             <!-- Header -->
             <h2 style="color: #ffffff; font-size: 24px; font-weight: 600; margin-top: 0; margin-bottom: 24px; letter-spacing: normal; text-transform: none;">
-              New Consultation Request
+              Business Alert
             </h2>
             
             <p style="font-size: 15px; color: #d4d4d4b3; margin-bottom: 32px; line-height: 1.5;">
-              You have received a new consultation submission from the website. Here are the details:
+              You have received a new enquiry from your website. Here are the details:
             </p>
 
             <!-- Details Table -->

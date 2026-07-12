@@ -77,10 +77,10 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 backdrop-blur-lg w-full z-50 transition-all duration-500 ${
           isScrolled
-            ? "py-4 bg-[#122130]/20 backdrop-blur-lg shadow-lg"
-            : "py-4 bg-[#122130]/50 border-b border-b-dark-70/10"
+            ? "py-3 bg-[#122130]/20 shadow-lg"
+            : "py-3 bg-[#122130]/50 border-b border-b-dark-70/10"
         }`}
       >
         <nav className="container mx-auto px-6 flex items-center justify-between relative h-12">
