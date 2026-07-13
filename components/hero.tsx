@@ -61,7 +61,7 @@ const Header: NextPage = () => {
               >
                 One Window <br />
                 Every Approval <br />
-                Zero Hassel
+                Zero Hassle
               </motion.h1>
             </div>
             <div
