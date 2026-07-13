@@ -11,14 +11,14 @@ export default function About() {
       />
       <div className="rounded-md border border-white/10 overflow-hidden">
         <div className="grid gap-8 lg:grid-cols-2">
-          <div className="relative w-full h-full aspect-4/3 md:aspect-4/2 lg:aspect-4/3 overflow-hidden">
+          <div className="relative w-full h-full aspect-4/4 md:aspect-4/3 overflow-hidden">
             <Image
               src="/about-udyora.webp"
               alt="About Udyora"
               fill
               priority
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 50vw"
-              className="object-cover w-full object-right"
+              className="object-cover w-full object-center"
             />
           </div>
           <div className="flex flex-col justify-center py-4 sm:py-6 pr-4 pl-4 max-lg:pt-0! lg:pl-0 lg:pr-6">
