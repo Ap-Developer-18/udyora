@@ -32,9 +32,9 @@ export default function About() {
             </h3>
 
             <p className="mt-3 sm:mt-4 md:mt-6 sm:text-lg sm:leading-relaxed text-subtitle">
-              Udyora is a project advisory and regulatory solutions company
-              specializing in obtaining statutory approvals required for
-              development projects.
+              Udyora Ventures Pvt Ltd is a project advisory and regulatory
+              solutions company specializing in obtaining statutory approvals
+              required for development projects.
             </p>
 
             <p className="mt-2 sm:text-lg sm:leading-relaxed text-subtitle">

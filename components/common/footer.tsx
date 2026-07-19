@@ -15,7 +15,7 @@ const utilityLinks = [
   { title: "Team", href: "#team" },
   { title: "Projects", href: "#projects" },
   { title: "Connect", href: "#connect" },
-  { title: "Privacy Policy", href: "#" },
+  { title: "Privacy Policy", href: "/privacy-policy" },
 ];
 
 export default function Footer() {
