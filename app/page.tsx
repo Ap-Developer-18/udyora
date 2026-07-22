@@ -1,6 +1,7 @@
 import About from "@/components/about";
 import Footer from "@/components/common/footer";
 import { Navbar } from "@/components/common/navbar";
+import ProfileBadge from "@/components/common/profile-badge";
 import { ScrollTextHighlight } from "@/components/common/scroll-text-highlighter";
 import Connect from "@/components/connect";
 import Forte from "@/components/forte";
@@ -22,6 +23,7 @@ export default function Home() {
       <Team />
       <Connect />
       <Footer />
+      <ProfileBadge />
     </>
   );
 }

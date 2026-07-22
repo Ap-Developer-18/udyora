@@ -16,6 +16,7 @@ const projects = [
     services: [
       "Change of Land Use | TCP Haryana",
       "Building Plan Approval | TCP Haryana",
+      "no data",
     ],
   },
   {
@@ -25,6 +26,7 @@ const projects = [
     services: [
       "Change of Land Use | TCP Haryana",
       "Building Plan Approval | TCP Haryana",
+      "Environmental NOC | HSPCB Haryana",
     ],
   },
   {
@@ -34,6 +36,7 @@ const projects = [
     services: [
       "Building Plan Approval | HSIIDC Haryana",
       "Fire Safety Approval | DGFS Haryana",
+      "no data",
     ],
   },
   {
@@ -43,6 +46,7 @@ const projects = [
     services: [
       "Tool Design | R&D Haryana",
       "Building Plan Approval | R&D Haryana",
+      "no data",
     ],
   },
 ];
@@ -113,7 +117,7 @@ export default function Projects() {
                       {project.services.map((service) => (
                         <span
                           key={service}
-                          className={`${service === "Building Plan Approval | R&D Haryana" && "opacity-0"} rounded-full border border-white/10 px-3 py-1 text-sm text-beige-100 bg-white/5`}
+                          className={`${service === "no data" && "opacity-0"} ${service === "Building Plan Approval | R&D Haryana" && "opacity-0"} rounded-full border border-white/10 px-3 py-1 text-sm text-beige-100 bg-white/5`}
                         >
                           {service}
                         </span>

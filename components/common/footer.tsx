@@ -8,12 +8,12 @@ const quickLinks = [
   { title: "Home", href: "#home" },
   { title: "About", href: "#about" },
   { title: "Forte", href: "#forte" },
-  { title: "Value", href: "#why" },
+  { title: "Projects", href: "#projects" },
 ];
 
 const utilityLinks = [
+  { title: "Value", href: "#why" },
   { title: "Team", href: "#team" },
-  { title: "Projects", href: "#projects" },
   { title: "Connect", href: "#connect" },
   { title: "Privacy Policy", href: "/privacy-policy" },
 ];
