@@ -1,11 +1,16 @@
 "use client";
 import type { NextPage } from "next";
 import { useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { Navbar } from "./common/navbar";
 import Button from "./common/button";
-import { ConsultationModal } from "./consultation-modal";
+
+const ConsultationModal = dynamic(
+  () => import("./consultation-modal").then((mod) => mod.ConsultationModal),
+  { ssr: false },
+);
 
 const Header: NextPage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -79,10 +84,12 @@ const Header: NextPage = () => {
         </section>
       </main>
 
-      <ConsultationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      {isModalOpen && (
+        <ConsultationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </>
   );
 };

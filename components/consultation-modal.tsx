@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { LazyMotion, domAnimation, m, AnimatePresence } from "framer-motion";
 import { ChevronDown, X } from "lucide-react";
 import Button from "./common/button";
 import StatusModal, { StatusModalState } from "./common/status-modal";
@@ -139,11 +139,11 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
     "w-full rounded-md border border-white/10 bg-white/5 px-3.5 py-2.5 text-white outline-none focus:border-white/30 transition placeholder:text-white/20 text-base md:text-sm";
 
   return (
-    <>
+    <LazyMotion features={domAnimation}>
       <AnimatePresence>
         {isOpen && (
           <div className="fixed inset-0 z-50 p-4 sm:p-6 flex items-center justify-center overflow-hidden isolation-isolate">
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -152,7 +152,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
             />
 
             <div className="container relative z-10 px-0! lg:px-4! mx-auto flex h-full items-center justify-center pointer-events-none">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, scale: 0.96, y: 15 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96, y: 15 }}
@@ -272,7 +272,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
 
                     <AnimatePresence>
                       {openDropdown && (
-                        <motion.div
+                        <m.div
                           initial={{ opacity: 0, y: -5 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -5 }}
@@ -292,7 +292,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                               {option}
                             </button>
                           ))}
-                        </motion.div>
+                        </m.div>
                       )}
                     </AnimatePresence>
                   </div>
@@ -318,12 +318,12 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                     />
                   </div>
                 </form>
-              </motion.div>
+              </m.div>
             </div>
           </div>
         )}
       </AnimatePresence>
       <StatusModal state={statusModal} onClose={handleStatusModalClose} />
-    </>
+    </LazyMotion>
   );
 };
