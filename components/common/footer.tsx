@@ -221,7 +221,7 @@ export default function Footer() {
 
       <div className="border-t border-white/10">
         <div className="container flex max-lg:text-center flex-col justify-center gap-4 py-4 lg:py-8 text-subtitle md:flex-row">
-          <p>© 2026 Udyora. All rights reserved.</p>
+          <p>© 2026 Udyora Ventures Pvt Ltd. All rights reserved.</p>
         </div>
       </div>
       <StatusModal state={modal} onClose={() => setModal(null)} />

@@ -143,7 +143,7 @@ export default function PrivacyPolicyPage() {
             <h3 className="text-2xl font-semibold">Udyora Ventures</h3>
 
             <div className="mt-6 space-y-3 text-white/70">
-              <p>Email: jsr@udyora.com</p>
+              <p>Email: daksh@udyora.com</p>
               <p>Phone: +91 99905 33555</p>
               <p>Working Hours: Monday – Saturday | 9:00 AM – 6:00 PM</p>
             </div>

@@ -237,7 +237,7 @@ export default function PrivacyPolicies() {
                       </p>
                       <div className="mt-4 space-y-2 text-subtitle">
                         <p>Phone: +91 99905 33555</p>
-                        <p>Email: jsr@udyora.com</p>
+                        <p>Email: daksh@udyora.com</p>
                         <p>Digitally in INDIA, for the WORLD</p>
                       </div>
 

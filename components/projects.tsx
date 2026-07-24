@@ -117,7 +117,7 @@ export default function Projects() {
                       {project.services.map((service) => (
                         <span
                           key={service}
-                          className={`${service === "no data" && "opacity-0"} ${service === "Building Plan Approval | R&D Haryana" && "opacity-0"} rounded-full border border-white/10 px-3 py-1 text-sm text-beige-100 bg-white/5`}
+                          className={`${service === "no data" && "opacity-0"} ${service === "Building Plan Approval | R&D Haryana" && "opacity-0"} rounded-full border uppercase border-white/10 px-3 py-1 text-xs text-beige-100 bg-white/5`}
                         >
                           {service}
                         </span>

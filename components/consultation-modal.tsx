@@ -183,7 +183,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                     <input
                       type="text"
                       required
-                      placeholder="John Doe"
+                      placeholder="Daksh Rawat"
                       value={formData.fullName}
                       onChange={(e) =>
                         setFormData({ ...formData, fullName: e.target.value })
@@ -197,7 +197,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                       <input
                         type="email"
                         required
-                        placeholder="john@example.com"
+                        placeholder="daksh@udyora.com"
                         value={formData.email}
                         onChange={(e) =>
                           setFormData({ ...formData, email: e.target.value })
@@ -210,7 +210,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                       <input
                         type="text"
                         required
-                        placeholder="+91 9876543210"
+                        placeholder="+91 99905 33555"
                         value={formData.phone}
                         onChange={(e) =>
                           setFormData({ ...formData, phone: e.target.value })
@@ -224,7 +224,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                     <input
                       type="text"
                       required
-                      placeholder="Your Company Name"
+                      placeholder="Udyora Ventures Pvt Ltd"
                       value={formData.companyName}
                       onChange={(e) =>
                         setFormData({

@@ -126,7 +126,7 @@ export default function Connect({ isOpen }: { isOpen?: boolean }) {
               <input
                 type="text"
                 required
-                placeholder="John Doe"
+                placeholder="Daksh Rawat"
                 value={formData.fullName}
                 onChange={(e) =>
                   setFormData({
@@ -143,7 +143,7 @@ export default function Connect({ isOpen }: { isOpen?: boolean }) {
                 <input
                   type="email"
                   required
-                  placeholder="john@example.com"
+                  placeholder="daksh@udyora.com"
                   value={formData.email}
                   onChange={(e) =>
                     setFormData({
@@ -159,7 +159,7 @@ export default function Connect({ isOpen }: { isOpen?: boolean }) {
                 <input
                   type="text"
                   required
-                  placeholder="+91 9876543210"
+                  placeholder="+91 9990533555"
                   value={formData.phone}
                   onChange={(e) =>
                     setFormData({
@@ -175,7 +175,7 @@ export default function Connect({ isOpen }: { isOpen?: boolean }) {
               <input
                 type="text"
                 required
-                placeholder="Your Company Name"
+                placeholder="Udyora Ventures Pvt Ltd"
                 value={formData.companyName}
                 onChange={(e) =>
                   setFormData({
@@ -295,7 +295,7 @@ export default function Connect({ isOpen }: { isOpen?: boolean }) {
           <p className="mt-1 text-subtitle">
             +91 99905 33555
             <br />
-            jsr@udyora.com
+            daksh@udyora.com
           </p>
         </div>
       </div>

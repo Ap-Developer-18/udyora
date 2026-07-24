@@ -14,7 +14,7 @@ interface ProfileCardProps {
 
 export default function ProfileBadge({
   name = "Satish Rawat",
-  statusText = "Online • Contact Now",
+  statusText = "Online",
   imageUrl = "/satish-rawat.png",
   isOnline = true,
   phoneNumber = "919990533555",
@@ -23,7 +23,6 @@ export default function ProfileBadge({
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    // Continuous Cycle: 3s Visible + 5s Hidden = 8s Total Cycle
     const cycle = () => {
       const hideTimer = setTimeout(() => {
         setIsVisible(false);

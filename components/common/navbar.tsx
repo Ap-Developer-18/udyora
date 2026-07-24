@@ -63,13 +63,41 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // FIX: iOS Safari does NOT properly lock scroll with only `overflow: hidden`
+  // on body — the page still rubber-band scrolls underneath, which pushes/shifts
+  // the fixed mobile drawer up. Chrome respects overflow:hidden fine, so this bug
+  // only shows on Safari/iOS. We now also pin body with position:fixed + restore
+  // scroll position on close.
   useEffect(() => {
-    if (isMenuOpen && window.innerWidth < 1024) {
+    const isMobileWidth = window.innerWidth < 1024;
+
+    if (isMenuOpen && isMobileWidth) {
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
       document.body.style.overflow = "hidden";
     } else {
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
       document.body.style.overflow = "";
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || "0", 10) * -1);
+      }
     }
+
     return () => {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
       document.body.style.overflow = "";
     };
   }, [isMenuOpen]);
@@ -91,10 +119,10 @@ export const Navbar: React.FC = () => {
                 window.scrollTo({ top: 0, behavior: "smooth" });
                 setActiveHash("/");
               }}
-              className="flex items-center heading text-white text-5xl gap-2"
+              className="flex items-center heading text-white text-4xl lg:text-5xl gap-2"
             >
               <img
-                className="h-full w-12 object-contain rounded-md"
+                className="h-full w-10 lg:w-12 object-contain rounded-md"
                 src="/logo.svg"
                 alt="udyora logo"
               />
@@ -152,7 +180,7 @@ export const Navbar: React.FC = () => {
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="flex items-center gap-4 text-white transition-all duration-300 bg-white/5 border border-white/10 backdrop-blur-xl rounded-md px-4 py-2.5 shadow-xl h-full"
+              className="flex items-center gap-4 text-white transition-all duration-300 bg-white/5 border border-white/10 backdrop-blur-xl rounded-md px-3 py-3 h-fit shadow-xl"
               aria-label="Toggle Menu"
             >
               <div className="relative w-5 h-4 flex flex-col justify-between items-center">
@@ -191,18 +219,23 @@ export const Navbar: React.FC = () => {
             />
 
             {/* Mobile Menu Drawer */}
+            {/* FIX: replaced `bottom-0` with a calculated dvh height.
+                iOS Safari's address bar show/hide changes the real viewport
+                height, so `top-[80px] bottom-0` was causing the drawer to
+                stretch/jump as Safari's chrome collapsed. `dvh` (dynamic
+                viewport height) tracks Safari's actual visible height, unlike
+                `vh` which is fixed to the largest possible viewport. Chrome
+                on Android doesn't have this quirk, hence "works fine in Chrome". */}
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              /* FIX: Spring hata kar fast & snappy easeOut tween lagaya hai */
               transition={{
                 type: "tween",
                 ease: "easeOut",
                 duration: 0.25,
               }}
-              /* Optimized with will-change-transform for smoother mobile execution */
-              className="lg:hidden fixed top-[80px] bottom-0 right-0 w-64 bg-[#122130]/20 backdrop-blur-2xl border-l border-white/10 z-[100] p-6 flex flex-col justify-between shadow-2xl will-change-transform"
+              className="lg:hidden fixed top-[80px] right-0 w-64 h-[calc(100dvh-80px)] bg-[#122130]/20 backdrop-blur-2xl border-l border-white/10 z-[100] p-6 flex flex-col justify-between shadow-2xl will-change-transform overflow-y-auto"
             >
               <div className="flex flex-col gap-1">
                 {NavLinks.map((link) => {
